@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+@class PlainPost;
 @protocol PostPresenterProtocol <NSObject>
+
+- (void)obtainCellObjectWithPost:(nonnull PlainPost *)post;
 
 @end

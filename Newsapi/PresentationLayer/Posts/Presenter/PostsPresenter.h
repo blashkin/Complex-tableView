@@ -24,8 +24,7 @@
 @interface PostsPresenter : NSObject <PostsPresenterProtocol>
 
 @property (nonatomic, weak, nullable) id <PostsPresenterDelegate> delegate;
-@property (nonatomic, nonnull) PostCellObjectFactory *cellObjectFactory;
 
-- (nonnull instancetype)initWithPostService:(nonnull id <PostServiceProtocol>)postService;
+- (nonnull instancetype)initWithPostService:(nonnull id <PostServiceProtocol>)postService cellObjectFactory:(nonnull PostCellObjectFactory *)cellObjectFactory;
 
 @end

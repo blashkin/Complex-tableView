@@ -9,12 +9,19 @@
 #import <Foundation/Foundation.h>
 #import "PostPresenterProtocol.h"
 
+@class PostCellObjectFactory;
+@protocol CellObject;
+@protocol PostServiceProtocol;
 @protocol PostPresenterDelegate <NSObject>
+
+- (void)updateWithPost:(nonnull NSArray <CellObject> *)post;
 
 @end
 
 @interface PostPresenter : NSObject <PostPresenterProtocol>
 
-@property (nonatomic, weak) id <PostPresenterDelegate> delegate;
+@property (nonatomic, weak, nullable) id <PostPresenterDelegate> delegate;
+
+- (nonnull instancetype)initWithPostService:(nonnull id <PostServiceProtocol>)postService cellObjectFactory:(nonnull PostCellObjectFactory *)cellObjectFactory;
 
 @end

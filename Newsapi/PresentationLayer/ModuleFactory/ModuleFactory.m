@@ -24,21 +24,20 @@
 - (PostsViewController <PostsViewControllerProtocol> *)createPostsModule {
 	let tableDataManager = [PostsTableDataManager new];
 	let service = [[PostService alloc] initNetworkClient:[NetworkClient new]];
-	let presenter = [[PostsPresenter alloc] initWithPostService:service];
+	let presenter = [[PostsPresenter alloc] initWithPostService:service cellObjectFactory:[PostCellObjectFactory new]];
 	let controller = [[PostsViewController alloc] initWithPresenter:presenter];
 	controller.title = @"News";
 	controller.tableDataManager = tableDataManager;
 	presenter.delegate = controller;
-	presenter.cellObjectFactory = [PostCellObjectFactory new];
 	tableDataManager.delegate = controller;
 	return controller;
 }
 
 - (PostViewController <PostViewControllerProtocol> *)createPostModule {
-	let tableDataManager = [[PostTableDataManager alloc] initWithCellObjectFactory:[PostCellObjectFactory new]];
-	let presenter = [PostPresenter new];
+    let service = [[PostService alloc] initNetworkClient:[NetworkClient new]];
+    let presenter = [[PostPresenter alloc] initWithPostService:service cellObjectFactory:[PostCellObjectFactory new]];
 	let controller = [[PostViewController alloc] initWithPresenter:presenter];
-	controller.tableDataManager = tableDataManager;
+	controller.tableDataManager = [PostTableDataManager new];
 	presenter.delegate = controller;
 	return (PostViewController <PostViewControllerProtocol> *)controller;
 }

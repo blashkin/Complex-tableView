@@ -27,10 +27,10 @@
 
 #pragma mark - Construction
 
-- (instancetype)initWithPostService:(id <PostServiceProtocol>)postService {
+- (instancetype)initWithPostService:(id <PostServiceProtocol>)postService cellObjectFactory:(PostCellObjectFactory *)cellObjectFactory {
 	if (self = [super init]) {
 		_postService = postService;
-		_postCellObjectFactory = [PostCellObjectFactory new];
+		_postCellObjectFactory = cellObjectFactory;
 		_posts = [NSMutableArray <PlainPost *> new];
 	}
 	return self;
@@ -50,9 +50,12 @@
 			NSLog(@"%@", error.localizedDescription);
 			return;
 		}
-		[self.posts addObjectsFromArray:posts];
-		let cellObjects = [weakSelf.postCellObjectFactory createCellObjectsWithPosts:posts];
-		[weakSelf.delegate updateWithPosts:cellObjects totalResults:totalResults];
+        
+        typeof(self) strongSelf = weakSelf;
+
+		[strongSelf.posts addObjectsFromArray:posts];
+		let cellObjects = [strongSelf.postCellObjectFactory createCellObjectsWithPosts:posts];
+		[strongSelf.delegate updateWithPosts:cellObjects totalResults:totalResults];
 	}];
 }
 
@@ -66,25 +69,28 @@
 			NSLog(@"%@", error.localizedDescription);
 			return;
 		}
-		let resizedPostCover = @{url: [weakSelf resizedImage:postCover[url] withSize:size]};
+        
+        typeof(self) strongSelf = weakSelf;
+
+		let resizedPostCover = @{url: [strongSelf resizedImage:postCover[url] withSize:size]};
 		dispatch_async(dispatch_get_main_queue(), ^{
-			[weakSelf.delegate updatePostWithCover:resizedPostCover];
+			[strongSelf.delegate updatePostWithCover:resizedPostCover];
 		});
 	}];
 }
 
 - (void)preparePostModuleWithPost:(PostCellObject *)postCellObject {
-	let predicate = [NSPredicate predicateWithFormat:@"%K = %@", NSStringFromSelector(@selector(publishedAt)), postCellObject.publishedAt];
-	let filtered = [_posts filteredArrayUsingPredicate:predicate];
-	let post = [filtered firstObject];
-	if (!post) {
-		return;
-	}
-
-	let factory = [ModuleFactory new];
-	let controller = [factory createPostModule];
-	[controller configureWithPost:post];
-	[_delegate showPostView:controller];
+    let predicate = [NSPredicate predicateWithFormat:@"%K = %@", NSStringFromSelector(@selector(publishedAt)), postCellObject.publishedAt];
+    let filtered = [_posts filteredArrayUsingPredicate:predicate];
+    let post = [filtered firstObject];
+    if (!post) {
+        return;
+    }
+    
+    let factory = [ModuleFactory new];
+    let controller = [factory createPostModule];
+    [controller configureWithPost:post];
+    [_delegate showPostView:controller];
 }
 
 
