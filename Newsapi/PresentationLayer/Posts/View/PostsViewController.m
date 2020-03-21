@@ -46,7 +46,6 @@
 #pragma mark - PostsViewControllerProtocol
 
 - (void)configure {
-	_tableView.tableFooterView = [UIView new];
 	_currentPage = 1;
 	[_presenter requestPosts:_currentPage];
 }
