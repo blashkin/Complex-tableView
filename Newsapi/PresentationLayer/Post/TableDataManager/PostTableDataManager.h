@@ -8,10 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PostTableDataManagerProtocol.h"
-#import "PostCellObjectFactory.h"
 
 @interface PostTableDataManager : NSObject <PostTableDataManagerProtocol>
-
-- (nonnull instancetype)initWithCellObjectFactory:(nonnull PostCellObjectFactory *)cellObjectFactory;
 
 @end

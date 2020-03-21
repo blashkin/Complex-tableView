@@ -15,7 +15,6 @@
 @interface PostTableDataManager ()
 
 @property (nonatomic) UITableView *tableView;
-@property (nonatomic) PostCellObjectFactory *cellObjectFactory;
 @property (nonatomic) NSMutableArray <CellObject> *cellObjects;
 @property (nonatomic) NSMutableDictionary *cellIdentifiers;
 
@@ -25,9 +24,8 @@
 
 #pragma mark - Construction
 
-- (instancetype)initWithCellObjectFactory:(PostCellObjectFactory *)cellObjectFactory {
+- (instancetype)init {
 	if (self = [super init]) {
-		_cellObjectFactory = cellObjectFactory;
 		_cellObjects = [NSMutableArray <CellObject> new];
 		_cellIdentifiers = [NSMutableDictionary new];
 	}
@@ -42,9 +40,8 @@
     _tableView.dataSource = self;
 }
 
-- (void)updateDataSourceWithPost:(PlainPost *)post {
-	let cellObjects = [_cellObjectFactory createCellObjectsWithPost:post];
-	[_cellObjects addObjectsFromArray:cellObjects];
+- (void)updateDataSourceWithPost:(NSArray <CellObject> *)post {
+	[_cellObjects addObjectsFromArray:post];
 	[_tableView reloadData];
 }
 

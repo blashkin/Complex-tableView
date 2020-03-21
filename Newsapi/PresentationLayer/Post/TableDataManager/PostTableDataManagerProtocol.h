@@ -9,9 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @class PlainPost;
+@protocol CellObject;
 @protocol PostTableDataManagerProtocol <NSObject, UITableViewDelegate, UITableViewDataSource>
 
 - (void)delegateForTableView:(nonnull UITableView *)tableView;
-- (void)updateDataSourceWithPost:(nonnull PlainPost *)post;
+- (void)updateDataSourceWithPost:(nonnull NSArray <CellObject> *)post;
 
 @end

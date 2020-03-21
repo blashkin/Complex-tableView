@@ -7,6 +7,7 @@
 //
 
 #import "PostViewController.h"
+#import "PlainPost.h"
 
 @interface PostViewController ()
 
@@ -41,7 +42,11 @@
 #pragma mark - PostPresenterDelegate
 
 - (void)configureWithPost:(PlainPost *)post {
-	[_tableDataManager updateDataSourceWithPost:post];
+    [_presenter obtainCellObjectWithPost:post];
+}
+
+- (void)updateWithPost:(NSArray <CellObject> *)post {
+    [_tableDataManager updateDataSourceWithPost:post];
 }
 
 #pragma mark - Setters & Getters
