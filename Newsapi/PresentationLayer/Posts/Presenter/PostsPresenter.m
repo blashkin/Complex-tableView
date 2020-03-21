@@ -74,7 +74,7 @@
 }
 
 - (void)preparePostModuleWithPost:(PostCellObject *)postCellObject {
-	let predicate = [NSPredicate predicateWithFormat:@"%@ == %@", NSStringFromSelector(@selector(publishedAt)), postCellObject.publishedAt];
+	let predicate = [NSPredicate predicateWithFormat:@"%K = %@", NSStringFromSelector(@selector(publishedAt)), postCellObject.publishedAt];
 	let filtered = [_posts filteredArrayUsingPredicate:predicate];
 	let post = [filtered firstObject];
 	if (!post) {
