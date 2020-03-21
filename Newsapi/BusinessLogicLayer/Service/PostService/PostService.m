@@ -35,13 +35,16 @@
 
 - (void)getPostsWithParams:(NSDictionary *)params completionBlock:(PostCompletion)completion {
 	if (!params || params.count == 0) {
+        completion(@[], 0, nil);
 		return;
 	}
 	let url = [self urlWithParams:params];
+    
+    __weak typeof(self) weakSelf = self;
 	[_networkClient requestWithURL:url completionBlock:^(id  _Nonnull data, NSError * _Nullable error) {
 		NSUInteger totalResults = 0;
 		if (data) {
-			let json = [self JSONObjectWithData:data];
+			let json = [weakSelf JSONObjectWithData:data];
 			NSArray <NSDictionary *> *articles = json[@"articles"];
 			totalResults =  [json[@"totalResults"] unsignedIntegerValue];
 			var posts = [NSMutableArray new];
